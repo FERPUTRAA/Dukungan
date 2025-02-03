@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "html": "^1.0.0",
+    "vercel": "^40.1.0"
+  }
+}
