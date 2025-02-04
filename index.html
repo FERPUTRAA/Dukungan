@@ -3,244 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>unandfess.xyz</title>
+    <title>Menfess Generator UNAND</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #2463eb;
-            --text-color: #1f2937;
-            --light-gray: #f3f4f6;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         body {
-            background-color: #ffffff;
-            line-height: 1.5;
-            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff, #000);
             min-height: 100vh;
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
         .container {
-            max-width: 800px;
-            margin: 5rem auto;
-            padding: 0 1.5rem 100px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            transition: transform 0.3s;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 2rem;
         }
 
         .header h1 {
+            color: #2d3436;
             font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #2563eb, #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
         }
 
-        .header p {
-            color: #6b7280;
-            font-size: 1.125rem;
-        }
-
-        .faq-item {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            transition: var(--transition);
-            background-color: white;
-        }
-
-        .faq-item:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .question {
-            padding: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 500;
-        }
-
-        .question h3 {
-            font-size: 1.125rem;
-            margin-right: 1rem;
-        }
-
-        .icon {
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-            transition: var(--transition);
-        }
-
-        .answer {
-            padding: 0 1.5rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .answer p {
-            color: #4b5563;
-            padding-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .faq-item.active {
-            border-color: var(--primary-color);
-            background-color: var(--light-gray);
-        }
-
-        .faq-item.active .icon {
-            transform: rotate(45deg);
-        }
-
-        .faq-item.active .answer {
-            max-height: 500px;
-            padding-top: 0.5rem;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 3rem 0;
-            color: #6b7280;
-            font-size: 0.875rem;
+        .header h1::after {
+            content: '';
             position: absolute;
-            bottom: 0;
-            width: 100%;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #4ecdc4;
         }
 
-        .saweria-button {
-            background-color: #000;
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2d3436;
+            font-weight: 600;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #4ecdc4;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.2);
+            outline: none;
+        }
+
+        .btn-generate {
+            background: #4ecdc4;
             color: white;
             padding: 15px 30px;
             border: none;
-            border-radius: 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            width: 100%;
+            letter-spacing: 1px;
+        }
+
+        .btn-generate:hover {
+            background: #45b7b0;
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .result-section {
+            margin-top: 2rem;
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .result-image {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin: 1rem 0;
+            border: 3px solid white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn-download {
+            background: #4ecdc4;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-instagram {
+            background: #e1306c;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-download:hover, .btn-instagram:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification {
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s;
+            z-index: 1000;
         }
 
-        .saweria-button:hover {
-            background-color: #f00;
-            transform: translateX(-50%) translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .saweria-button:active {
-            transform: translateX(-50%) translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 640px) {
-            .container {
-                margin: 3rem auto;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .saweria-button {
-                font-size: 16px;
-                padding: 12px 24px;
-            }
+        .settings {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .color-option.active {
+            border-color: #000;
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>UNANDFESS.XYZ</h1>
-            <p>Find answers to common questions about our services</p>
+            <h1>Menfess UNAND 23</h1>
+            <p>kirim menfess✨</p>
         </div>
 
-        <div class="faq-list">
-            <div class="faq-item">
-                <div class="question">
-                    <h3>Apa itu Unandfess?</h3>
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                </div>
-                <div class="answer">
-                    <p>Unandfess adalah platform menfess (mention confession) yang memungkinkan pengguna untuk berbagi pesan secara anonim.</p>
-                </div>
+        <div class="settings">
+            <div class="form-group">
+                <label>From:</label>
+                <input type="text" id="from" placeholder="Nama pengirim...">
+            </div>
+            
+            <div class="form-group">
+                <label>To:</label>
+                <input type="text" id="to" placeholder="Nama penerima...">
             </div>
 
-            <div class="faq-item">
-                <div class="question">
-                    <h3>Apakah menfess saya benar-benar anonim?</h3>
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                </div>
-                <div class="answer">
-                    <p>Ya, semua menfess di Unandfess bersifat anonim. Kami tidak menyimpan informasi yang dapat mengidentifikasi pengirim.</p>
-                </div>
+            <div class="form-group">
+                <label>Pesan:</label>
+                <textarea id="message" rows="5" placeholder="Tulis pesan rahasia Anda..."></textarea>
             </div>
 
-            <div class="faq-item">
-                <div class="question">
-                    <h3>Apa itu Ziwa?</h3>
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                </div>
-                <div class="answer">
-                    <p>Visi Kami: Kami ingin menyediakan wadah di mana setiap orang merasa didukung dengan KASIH SAYANG dan KEHANGATAN<br><br>
-                    Perjalanan Kami: Ziwa telah memiliki komunitas sejak Tahun 2022. Sejak itu, banyak hal yang telah kami lakukan dengan misi utama memberikan ruang aman bagi generasi muda, khususnya Generasi Z dan Milenial. Kami berusaha mewujudkan pencarian mereka terhadap komunitas yang mendukung.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="question">
-                    <h3>Apakah saya bisa memberikan charity?</h3>
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                </div>
-                <div class="answer">
-                    <p>Tentunya kami sangat berbahagia jika Anda ingin berbagi untuk mendukung program kami. Ziwa adalah organisasi nonprofit. Anda bisa kunjungi <a href="https://www.ziwaku.com" target="_blank" style="color: var(--primary-color);">ziwaku.com</a> untuk informasi lebih lanjut. Untuk mendukung website Unandfess, Anda bisa menggunakan link Saweria di bawah.</p>
+            <div class="form-group">
+                <label>Warna Teks:</label>
+                <div class="color-picker">
+                    <div class="color-option active" style="background: #000" data-color="#000"></div>
+                    <div class="color-option" style="background: #ffffff" data-color="#ffffff"></div>
                 </div>
             </div>
         </div>
+
+        <button class="btn-generate" onclick="generateMenfess()">🎉 Generate Menfess</button> <div
+<p>nb:download terlebih dahulu gambar lalu kirimkan ke dm</p>
+        <div class="result-section" id="result"></div>
     </div>
 
-    <div class="footer">
-        <p>© 2024 frchorp. All rights reserved</p>
-    </div>
-    
-    <button class="saweria-button" onclick="window.location.href='https://saweria.co/Freyyputt'">
-        Dukung Kami di Saweria
-    </button>
+    <div class="notification" id="notification"></div>
 
     <script>
-        document.querySelectorAll('.faq-item').forEach(item => {
-            const question = item.querySelector('.question');
-            question.addEventListener('click', () => {
-                item.classList.toggle('active');
+        let textColor = '#ffffff';
+        
+        // Color picker logic
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.color-option').forEach(opt => 
+                    opt.classList.remove('active'));
+                option.classList.add('active');
+                textColor = option.dataset.color;
             });
         });
+
+        async function generateMenfess() {
+            const from = document.getElementById('from').value.trim();
+            const to = document.getElementById('to').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!from || !to || !message) {
+                showNotification('❌ Harap isi semua kolom!', '#ff6b6b');
+                return;
+            }
+
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Set canvas size
+                canvas.width = 1080;
+                canvas.height = 1350;
+
+                // Load background image
+                const bgImage = await loadImage('https://res.cloudinary.com/depbfbxtm/image/upload/v1738625149/bsjdza8itcokdoiiy9vn.jpg');
+                ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+
+                // Text styling
+                const originalColor = ctx.fillStyle;
+                ctx.font = 'bold 30px Arial';
+                ctx.textBaseline = 'top';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+                ctx.shadowBlur = 0;
+
+                // Draw From text
+                ctx.fillStyle = textColor;
+                drawText(ctx, `From : ${from}`, 309, 440);
+
+                // Draw To text with name in dark green
+                const toLabel = "To   : ";
+                ctx.fillStyle = textColor;
+                drawText(ctx, toLabel, 309, 510);
+                
+                // Calculate name position
+                const labelWidth = ctx.measureText(toLabel).width;
+                
+                // Draw name in dark green
+                ctx.fillStyle = '#006400';
+                drawText(ctx, to, 309 + labelWidth, 510);
+                
+                // Restore original color
+                ctx.fillStyle = originalColor;
+
+                // Draw Message
+                ctx.fillStyle = textColor;
+                drawText(ctx, 'Message', 450, 600);
+                
+                // Message text
+                ctx.font = '29px Arial';
+                ctx.textAlign = 'center';
+                drawWrappedText(ctx, message, canvas.width/2, 669, 1000, 50);
+
+                // Generate preview
+                const dataUrl = canvas.toDataURL('image/png');
+                showResult(dataUrl);
+                showNotification('🎉 Menfess berhasil dibuat!', '#4ecdc4');
+
+            } catch (error) {
+                showNotification(`❌ Error: ${error.message}`, '#ff6b6b');
+            }
+        }
+
+        function drawText(ctx, text, x, y) {
+            ctx.fillText(text, x, y);
+        }
+
+        function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let currentY = y;
+
+            for (const [index, word] of words.entries()) {
+                const testLine = line + word + ' ';
+                const metrics = ctx.measureText(testLine);
+                
+                if (metrics.width > maxWidth && line !== '') {
+                    ctx.fillText(line, x, currentY);
+                    line = word + ' ';
+                    currentY += lineHeight;
+                } else {
+                    line = testLine;
+                }
+                
+                if (index === words.length - 1) {
+                    ctx.fillText(line, x, currentY);
+                }
+            }
+        }
+
+        function loadImage(src) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.src = src;
+                img.onload = () => resolve(img);
+                img.onerror = (err) => reject(err);
+            });
+        }
+
+        function showResult(dataUrl) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h3>Hasil Menfess Anda 🎉</h3>
+                <img class="result-image" src="${dataUrl}" alt="Menfess Result">
+                <div class="action-buttons">
+                    <a href="${dataUrl}" download="menfess-unand.png" class="btn-download">
+                        📥 Download
+                    </a>
+                    <a href="https://www.instagram.com/menfess.unand23" 
+                       target="_blank"
+                       class="btn-instagram">
+                        📤 Kirim ke Instagram
+                    </a>
+                </div>
+            `;
+        }
+
+        function showNotification(text, color) {
+            const notif = document.getElementById('notification');
+            notif.textContent = text;
+            notif.style.background = color;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 3000);
+        }
     </script>
 </body>
 </html>
