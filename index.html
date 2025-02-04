@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menfess Generator UNAND</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
         * {
             margin: 0;
@@ -112,11 +112,11 @@
         }
 
         .result-image {
-            max-width: 100%;
+            max-width: 90%;
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            margin: 1rem 0;
-            border: 3px solid white;
+            margin: 1rem auto;
+            border: 3px solid black;
         }
 
         .action-buttons {
@@ -174,7 +174,7 @@
         }
 
         .settings {
-            background: #f8f9fa;
+            background: #565a;
             padding: 1.5rem;
             border-radius: 15px;
             margin-bottom: 2rem;
@@ -213,7 +213,7 @@
                 <label>From:</label>
                 <input type="text" id="from" placeholder="Nama pengirim...">
             </div>
-            
+
             <div class="form-group">
                 <label>To:</label>
                 <input type="text" id="to" placeholder="Nama penerima...">
@@ -221,37 +221,57 @@
 
             <div class="form-group">
                 <label>Pesan:</label>
-                <textarea id="message" rows="5" placeholder="Tulis pesan rahasia Anda..."></textarea>
+                <textarea id="message" rows="5" placeholder="Tulis pesan rahasia Anda..." maxlength="250" oninput="countCharacters()"></textarea>
+                <p class="counter"><span id="charCount">0</span>/250 karakter 
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">perbesar tarik bagian bawah kanan kolom</p>
+                <p id="errorMessage" class="error"></p>
             </div>
 
             <div class="form-group">
                 <label>Warna Teks:</label>
                 <div class="color-picker">
                     <div class="color-option active" style="background: #000" data-color="#000"></div>
-                    <div class="color-option" style="background: #ffffff" data-color="#ffffff"></div>
+                    <div class="color-option" style="background: #e1306c" data-color="#e1306c"></div>
+                    <div class="color-option" style="background: #405de6" data-color="#405de6"></div>
                 </div>
             </div>
         </div>
 
-        <button class="btn-generate" onclick="generateMenfess()">🎉 Generate Menfess</button> <div
-<p>nb:download terlebih dahulu gambar lalu kirimkan ke dm</p>
+        <button class="btn-generate" onclick="generateMenfess()">🎉 Generate Menfess</button>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">NB: Download gambar lalu kirim ke DM Instagram</p>
+
         <div class="result-section" id="result"></div>
     </div>
 
     <div class="notification" id="notification"></div>
 
     <script>
-        let textColor = '#ffffff';
-        
+        let textColor = '#000';
+
         // Color picker logic
         document.querySelectorAll('.color-option').forEach(option => {
             option.addEventListener('click', () => {
-                document.querySelectorAll('.color-option').forEach(opt => 
+                document.querySelectorAll('.color-option').forEach(opt =>
                     opt.classList.remove('active'));
                 option.classList.add('active');
                 textColor = option.dataset.color;
             });
         });
+
+        function countCharacters() {
+            var textInput = document.getElementById("message");
+            var charCount = document.getElementById("charCount");
+            var errorMessage = document.getElementById("errorMessage");
+
+            var length = textInput.value.length;
+            charCount.textContent = length;
+
+            if (length > 250) {
+                errorMessage.textContent = "Maksimal 250 karakter!";
+            } else {
+                errorMessage.textContent = "";
+            }
+        }
 
         async function generateMenfess() {
             const from = document.getElementById('from').value.trim();
@@ -266,49 +286,58 @@
             try {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                
-                // Set canvas size
+
+                // Set canvas size (Instagram square format)
                 canvas.width = 1080;
-                canvas.height = 1350;
+                canvas.height = 1080;
 
                 // Load background image
-                const bgImage = await loadImage('https://res.cloudinary.com/depbfbxtm/image/upload/v1738625149/bsjdza8itcokdoiiy9vn.jpg');
+                const bgImage = await loadImage('https://res.cloudinary.com/depbfbxtm/image/upload/v1738638036/dbtiembmafkfk52rpozh.jpg');
                 ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 
                 // Text styling
-                const originalColor = ctx.fillStyle;
                 ctx.font = 'bold 30px Arial';
                 ctx.textBaseline = 'top';
                 ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
                 ctx.shadowBlur = 0;
 
-                // Draw From text
+                // Draw From text (left aligned)
+                ctx.textAlign = 'left';
                 ctx.fillStyle = textColor;
-                drawText(ctx, `From : ${from}`, 309, 440);
+                ctx.fillText(`From : ${from}`, 309, 340);
 
-                // Draw To text with name in dark green
-                const toLabel = "To   : ";
+                // Draw To text (left aligned)
+                const toLabel = "To      : ";
                 ctx.fillStyle = textColor;
-                drawText(ctx, toLabel, 309, 510);
-                
-                // Calculate name position
+                ctx.fillText(toLabel, 309, 390);
+
+                // Draw To name in dark green
                 const labelWidth = ctx.measureText(toLabel).width;
-                
-                // Draw name in dark green
                 ctx.fillStyle = '#006400';
-                drawText(ctx, to, 309 + labelWidth, 510);
-                
-                // Restore original color
-                ctx.fillStyle = originalColor;
+                ctx.fillText(to, 309 + labelWidth, 400);
 
-                // Draw Message
-                ctx.fillStyle = textColor;
-                drawText(ctx, 'Message', 450, 600);
-                
-                // Message text
-                ctx.font = '29px Arial';
+                // Message Header (centered)
                 ctx.textAlign = 'center';
-                drawWrappedText(ctx, message, canvas.width/2, 669, 1000, 50);
+                ctx.fillStyle = textColor;
+                ctx.fillText('Message:', canvas.width/2, 460);
+
+                // Message text (centered)
+                ctx.font = ' bold 29px Arial';
+                const maxWidth = 500;
+                const lineHeight = 30;
+                const maxLines = 20;
+                const startY = 505;
+
+                // Split message into paragraphs
+                const paragraphs = splitIntoParagraphs(message, 250); // Increased char per line
+
+                let currentY = startY;
+                paragraphs.forEach((para, index) => {
+                    currentY = drawWrappedText(ctx, para, canvas.width/2, currentY, maxWidth, lineHeight, maxLines);
+                    if (index < paragraphs.length - 1) {
+                        currentY += lineHeight * 0.2; // Reduced spacing between paragraphs
+                    }
+                });
 
                 // Generate preview
                 const dataUrl = canvas.toDataURL('image/png');
@@ -320,31 +349,41 @@
             }
         }
 
-        function drawText(ctx, text, x, y) {
-            ctx.fillText(text, x, y);
+        function splitIntoParagraphs(text, maxChars) {
+            const paragraphs = [];
+            while (text.length > 0) {
+                const spaceIndex = text.lastIndexOf(' ', maxChars);
+                const splitIndex = spaceIndex > 0 ? spaceIndex : maxChars;
+                paragraphs.push(text.substring(0, splitIndex).trim());
+                text = text.substring(splitIndex).trim();
+            }
+            return paragraphs;
         }
 
-        function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight) {
+        function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight, maxLines) {
             const words = text.split(' ');
             let line = '';
-            let currentY = y;
+            let lines = 0;
 
-            for (const [index, word] of words.entries()) {
+            for (const word of words) {
                 const testLine = line + word + ' ';
                 const metrics = ctx.measureText(testLine);
-                
+
                 if (metrics.width > maxWidth && line !== '') {
-                    ctx.fillText(line, x, currentY);
+                    ctx.fillText(line, x, y);
                     line = word + ' ';
-                    currentY += lineHeight;
+                    y += lineHeight;
+                    if (++lines >= maxLines) break;
                 } else {
                     line = testLine;
                 }
-                
-                if (index === words.length - 1) {
-                    ctx.fillText(line, x, currentY);
-                }
             }
+
+            if (lines < maxLines) {
+                ctx.fillText(line, x, y);
+                y += lineHeight;
+            }
+            return y;
         }
 
         function loadImage(src) {
@@ -366,7 +405,7 @@
                     <a href="${dataUrl}" download="menfess-unand.png" class="btn-download">
                         📥 Download
                     </a>
-                    <a href="https://www.instagram.com/menfess.unand23" 
+                    <a href="https://www.instagram.com/menfess.unand23"
                        target="_blank"
                        class="btn-instagram">
                         📤 Kirim ke Instagram
